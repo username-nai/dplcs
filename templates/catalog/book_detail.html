@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+        <div class="card shadow-sm">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0">Book Details</h4>
+            </div>
+            <div class="card-body">
+                <h3 class="card-title">{{ book.name }}</h3>
+                <h6 class="card-subtitle mb-4 text-muted">
+                    Author(s): 
+                    {% for author in book.authors.all %}
+                        {{ author.name }}{% if not forloop.last %}, {% endif %}
+                    {% endfor %}
+                </h6>
+                
+                <table class="table table-bordered">
+                    <tbody>
+                        <tr>
+                            <th class="w-25">Available Copies</th>
+                            <td>{{ book.available_quantity }}</td>
+                        </tr>
+                        <tr>
+                            <th>Room No</th>
+                            <td>{{ book.room_no }}</td>
+                        </tr>
+                        <tr>
+                            <th>Shelf No</th>
+                            <td>{{ book.shelf_no }}</td>
+                        </tr>
+                        <tr>
+                            <th>Row</th>
+                            <td>{{ book.row }}</td>
+                        </tr>
+                        <tr>
+                            <th>Column</th>
+                            <td>{{ book.column }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <div class="mt-4">
+                    <form method="post" action="{% url 'add_to_cart' book.id %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-success btn-lg" {% if book.available_quantity == 0 %}disabled{% endif %}>
+                            Add to Cart
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

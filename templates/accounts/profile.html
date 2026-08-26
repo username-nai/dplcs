@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-6 offset-md-3">
+        <div class="card shadow-sm">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0">User Profile</h4>
+            </div>
+            <div class="card-body">
+                <table class="table table-borderless">
+                    <tbody>
+                        <tr>
+                            <th scope="row" class="w-25">Member ID:</th>
+                            <td><strong>{{ user.member_id }}</strong></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Name:</th>
+                            <td>{{ user.first_name }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Phone:</th>
+                            <td>{{ user.phone }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Email:</th>
+                            <td>{{ user.email }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
