@@ -1,0 +1,115 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+        <h2 class="mb-4 text-primary">My Dashboard</h2>
+        
+        <!-- Cart List Section -->
+        <div class="card shadow-sm mb-5">
+            <div class="card-header bg-light">
+                <h4 class="mb-0">Cart List</h4>
+            </div>
+            <div class="card-body">
+                {% if cart_items %}
+                    <table class="table table-hover align-middle">
+                        <thead>
+                            <tr>
+                                <th>Book</th>
+                                <th>Author(s)</th>
+                                <th>Quantity</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in cart_items %}
+                                <tr>
+                                    <td>{{ item.book.name }}</td>
+                                    <td>
+                                        {% for author in item.book.authors.all %}
+                                            {{ author.name }}{% if not forloop.last %}, {% endif %}
+                                        {% endfor %}
+                                    </td>
+                                    <td>
+                                        <div class="btn-group" role="group">
+                                            <form method="post" action="{% url 'update_cart' item.id 'decrease' %}" class="d-inline">
+                                                {% csrf_token %}
+                                                <button type="submit" class="btn btn-sm btn-outline-secondary">-</button>
+                                            </form>
+                                            <button type="button" class="btn btn-sm btn-light" disabled>{{ item.quantity }}</button>
+                                            <form method="post" action="{% url 'update_cart' item.id 'increase' %}" class="d-inline">
+                                                {% csrf_token %}
+                                                <button type="submit" class="btn btn-sm btn-outline-secondary">+</button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <form method="post" action="{% url 'remove_from_cart' item.id %}">
+                                            {% csrf_token %}
+                                            <button type="submit" class="btn btn-sm btn-danger">Remove</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    
+                    <div class="d-flex justify-content-end mt-4">
+                        <form method="post" action="{% url 'request_borrow' %}">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-primary btn-lg">Request for Borrow</button>
+                        </form>
+                    </div>
+                {% else %}
+                    <p class="text-muted mb-0">Your cart is empty.</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Currently Borrowed Books Section -->
+        <div class="card shadow-sm">
+            <div class="card-header bg-light">
+                <h4 class="mb-0">Currently Borrowed Books</h4>
+            </div>
+            <div class="card-body">
+                {% if borrowed_books %}
+                    <table class="table table-hover align-middle">
+                        <thead>
+                            <tr>
+                                <th>Book Name</th>
+                                <th>Author(s)</th>
+                                <th>Quantity</th>
+                                <th>Borrow Date</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for record in borrowed_books %}
+                                <tr>
+                                    <td>{{ record.book.name }}</td>
+                                    <td>
+                                        {% for author in record.book.authors.all %}
+                                            {{ author.name }}{% if not forloop.last %}, {% endif %}
+                                        {% endfor %}
+                                    </td>
+                                    <td>{{ record.quantity }}</td>
+                                    <td>{{ record.borrow_date|date:"Y-m-d H:i" }}</td>
+                                    <td>
+                                        <form method="post" action="{% url 'request_return' record.id %}">
+                                            {% csrf_token %}
+                                            <button type="submit" class="btn btn-sm btn-warning">Return Book</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% else %}
+                    <p class="text-muted mb-0">You currently have no borrowed books.</p>
+                {% endif %}
+            </div>
+        </div>
+        
+    </div>
+</div>
+{% endblock %}

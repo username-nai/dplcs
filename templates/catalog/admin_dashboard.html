@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12 text-center mt-4">
+        <h2 class="mb-4 text-primary">Admin Dashboard</h2>
+        
+        <div class="row justify-content-center mt-5">
+            <div class="col-md-3 mb-4">
+                <div class="card shadow-sm h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">Manage Users</h5>
+                        <p class="card-text text-muted">View registered users and their borrowed books.</p>
+                        <a href="{% url 'admin_users' %}" class="btn btn-outline-primary w-100">Users</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-3 mb-4">
+                <div class="card shadow-sm h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">Manage Books</h5>
+                        <p class="card-text text-muted">Search, edit quantity, and delete books.</p>
+                        <a href="{% url 'admin_find_book' %}" class="btn btn-outline-primary w-100">Find Book</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-3 mb-4">
+                <div class="card shadow-sm h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">Add New Book</h5>
+                        <p class="card-text text-muted">Add a new book to the library catalog.</p>
+                        <a href="{% url 'admin_add_book' %}" class="btn btn-outline-primary w-100">Add Book</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3 mb-4">
+                <div class="card shadow-sm h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">Borrow Requests</h5>
+                        <p class="card-text text-muted">Confirm or decline borrowing requests.</p>
+                        <a href="{% url 'admin_requests' %}" class="btn btn-outline-primary w-100">Requests</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3 mb-4">
+                <div class="card shadow-sm h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">Return Requests</h5>
+                        <p class="card-text text-muted">Confirm book returns to restock inventory.</p>
+                        <a href="{% url 'admin_return_requests' %}" class="btn btn-outline-primary w-100">Return Requests</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
